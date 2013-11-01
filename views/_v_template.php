@@ -16,12 +16,12 @@
 		<h1 id="header">myBlog</h1><br>
 			<div id="navbar"> 
 		  	<ul> 
-			<li><a href="../users/profile">Profile</a></li>
-			<li><a href="../posts/add">Post</a></li>
-			<li><a href="../posts/myposts">My Posts</a></li>  
-			<li><a href="../posts/index">View Posts</a></li> 
-			<li><a href="../posts/users">View Users</a></li> 
-			<li><a href="../users/logout">Logout</a></li> 
+			<li><a href="/users/profile">Profile</a></li>
+			<li><a href="/posts/add">Post</a></li>
+			<li><a href="/posts/myposts">My Posts</a></li>  
+			<li><a href="/posts/index">View Posts</a></li> 
+			<li><a href="/posts/users">View Users</a></li> 
+			<li><a href="/users/logout">Logout</a></li> 
 		  	</ul> 
 		</div>
 	</div> 

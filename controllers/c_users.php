@@ -8,15 +8,22 @@ class users_controller extends base_controller {
     public function index() {
          #Set up the View
         $this->template->content = View::instance('v_users_index');
+
+        #Set header information
+        $client_files_head = array('/css/users_profile.css');
+        $this->template->client_files_head = Utils::load_client_files($client_files_head);
+
         #Render the view
         echo $this->template;
     }
 
     public function signup() {
+        if ($this->user)
+            Router::redirect('/users/index');
         #Set up the View
         $this->template->content = View::instance('v_users_signup');
 
-        $client_files_head = array('/css/signup.css');
+        $client_files_head = array('/css/users_signup.css');
         $this->template->client_files_head = Utils::load_client_files($client_files_head);
 
         #Render the view
@@ -78,13 +85,16 @@ class users_controller extends base_controller {
 
     public function profile($user_name = NULL) {
 
+        #User has to be logged in to access profiles
         if(!$this->user)
         {
             Router::redirect('/users/login');
         }
 
-        else
-        {
+        #Set header information
+        $client_files_head = array('/css/style.css', '/css/users_profile.css');
+        $this->template->client_files_head = Utils::load_client_files($client_files_head);
+
         #Set up View
         $this->template->content = View::instance('v_users_profile');
 
@@ -94,21 +104,60 @@ class users_controller extends base_controller {
         #Set title
         $this->template->title = "Profile";
 
+        if (!isset($user_name))
+        {
+            $this->template->content->user_id = $user_id = $this->user->user_id;
+            $this->template->content->first_name = $first_name = $this->user->first_name;
+            $this->template->content->last_name = $last_name = $this->user->last_name;
+        }
+
+        else
+        {
+            #Getting data from user whose username equals function's argument
+            $result = DB::instance(DB_NAME)->select_row("SELECT first_name, last_name, user_id FROM users WHERE username = '$user_name'");
+            
+            #Passing first and last name to view
+            $this->template->content->first_name = $first_name = $result['first_name'];
+            $this->template->content->last_name = $last_name  = $result['last_name'];
+            $this->template->content->user_id = $user_id = $result['user_id'];
+            
+            if ($result == NULL) {
+                $this->template->content->no_profile = $no_profile = TRUE;
+                Router::redirect('/users/profileNotFound/'.$user_name);
+            }
+        }
+
+        #Pass the data to the View
+        $this->template->content->user_name = $user_name;
+
+        #Get number of followers
+        $this->template->content->follows = $follows = DB::instance(DB_NAME)->select_field($q = "SELECT COUNT(user_user_id) FROM users_users WHERE user_id = '".$user_id."'");
+
+        #Get number of people user follows
+        $this->template->content->followed = $followed = DB::instance(DB_NAME)->select_field($q = "SELECT COUNT(user_user_id) FROM users_users WHERE user_id_followed = '".$user_id."'");
+
+        #Get number of posts made
+        $this->template->content->posted = $posted = DB::instance(DB_NAME)->select_field($q = "SELECT COUNT(post_id) FROM posts WHERE user_id = '".$user_id."'");
+
+        echo $this->template;
+    }
+
+    public function profileNotFound($user_name)
+    {
+        #Set up View
+        $this->template->content = View::instance('v_users_noprofile');
+
         #Set header information
         $client_files_head = array('/css/style.css', '/css/users_profile.css');
         $this->template->client_files_head = Utils::load_client_files($client_files_head);
 
-        #Get number of followers
-        $this->template->content->follows = $follows = DB::instance(DB_NAME)->select_field($q = "SELECT COUNT(user_user_id) FROM users_users WHERE user_id = '".$this->user->user_id."'");
+        #Set title
+        $this->template->title = "ProfileNotFound";
 
-        #Get number of people user follows
-        $this->template->content->followed = $followed = DB::instance(DB_NAME)->select_field($q = "SELECT COUNT(user_user_id) FROM users_users WHERE user_id_followed = '".$this->user->user_id."'");
-
-        #Get number of posts made
-        $this->template->content->posted = $posted = DB::instance(DB_NAME)->select_field($q = "SELECT COUNT(post_id) FROM posts WHERE user_id = '".$this->user->user_id."'");
+        #Pass data to view
+        $this->template->content->user_name = $user_name;
 
         echo $this->template;
-        }
     }
 
 } # end of the class

@@ -6,9 +6,17 @@ class posts_controller extends base_controller
         parent::__construct();
     } 
 
-	public function add()
+	public function add($last_post = NULL)
 	{
 		$this->template->content = View::instance("v_posts_add");
+		$client_files_head = array('/css/style.css', '/css/posts_add.css');
+        $this->template->client_files_head = Utils::load_client_files($client_files_head);
+		
+		if ($last_post == 'last_post')
+		{
+			$this->template->content->last_input = $last_input = DB::instance(DB_NAME)->select_field($q = "SELECT content FROM posts WHERE user_id = '".$this->user->user_id."' ORDER BY post_id DESC LIMIT 1");
+			$this->template->content->message = $message = 'Post added:<br>'.$last_input;
+		}
 		echo $this->template;
 	}
 
@@ -25,9 +33,9 @@ class posts_controller extends base_controller
         # Note we didn't have to sanitize any of the $_POST data because we're using the insert method which does it for us
         DB::instance(DB_NAME)->insert('posts', $_POST);
 
-        # Quick and dirty feedback
-        echo "Your post has been added. <a href='/posts/add'>Add another</a>";
-
+        #Redirect to origin
+        Router::redirect('/posts/add/last_post');
+        
     }
 
 	public function index() {
