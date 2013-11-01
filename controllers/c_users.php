@@ -94,25 +94,20 @@ class users_controller extends base_controller {
         #Set title
         $this->template->title = "Profile";
 
+        #Set header information
         $client_files_head = array('/css/style.css', '/css/users_profile.css');
         $this->template->client_files_head = Utils::load_client_files($client_files_head);
 
-        $username = $this->user->username;
-        $q = "SELECT user_id FROM users WHERE username = '$username'";
-        $id = DB::instance(DB_NAME)->select_field($q);
-        $q = "SELECT COUNT(*) FROM posts WHERE user_id = '$id'";
-        $num_rows = DB::instance(DB_NAME)->query($q);
-        $result = mysql_fetch_array($num_rows);
-        print $result['COUNT(*)'];
-       /* $q = "SELECT * FROM users WHERE username = $user_name"; 
+        #Get number of followers
+        $this->template->content->follows = $follows = DB::instance(DB_NAME)->select_field($q = "SELECT COUNT(user_user_id) FROM users_users WHERE user_id = '".$this->user->user_id."'");
 
-        //Execute query against DB
-        $user = DB::instance(DB_NAME)->select_rows($q);*/
+        #Get number of people user follows
+        $this->template->content->followed = $followed = DB::instance(DB_NAME)->select_field($q = "SELECT COUNT(user_user_id) FROM users_users WHERE user_id_followed = '".$this->user->user_id."'");
 
-        // $this->template->content->user = $user;
+        #Get number of posts made
+        $this->template->content->posted = $posted = DB::instance(DB_NAME)->select_field($q = "SELECT COUNT(post_id) FROM posts WHERE user_id = '".$this->user->user_id."'");
 
-        #Display the view
-        // echo $this->template;      
+        echo $this->template;
         }
     }
 
