@@ -15,7 +15,6 @@ class posts_controller extends base_controller
 		if ($last_post == 'last_post')
 		{
 			$this->template->content->last_input = $last_input = DB::instance(DB_NAME)->select_field($q = "SELECT content FROM posts WHERE user_id = '".$this->user->user_id."' ORDER BY post_id DESC LIMIT 1");
-			$this->template->content->message = $message = 'Post added:<br>'.$last_input;
 		}
 		echo $this->template;
 	}
@@ -43,6 +42,11 @@ class posts_controller extends base_controller
     # Set up the View
     $this->template->content = View::instance('v_posts_index');
     $this->template->title   = "All Posts";
+
+    #Setting header info
+    $client_files_head = array('/css/posts_posts.css');
+    $this->template->client_files_head = Utils::load_client_files($client_files_head);
+		
 
     # Query
     $q = 'SELECT 
@@ -76,6 +80,10 @@ public function myPosts()
     $this->template->content = View::instance('v_posts_myposts');
     $this->template->title   = "My Posts";
 
+    #Setting header info
+    $client_files_head = array('/css/posts_posts.css');
+    $this->template->client_files_head = Utils::load_client_files($client_files_head);
+	
     # Build the query
     $q = "SELECT 
             posts .* , 
@@ -102,6 +110,11 @@ public function myPosts()
 	    # Set up the View
 	    $this->template->content = View::instance("v_posts_users");
 	    $this->template->title   = "Users";
+
+	    #Setting header info
+	    $client_files_head = array('/css/posts_users.css');
+	    $this->template->client_files_head = Utils::load_client_files($client_files_head);
+	
 
 	    # Build the query to get all the users
 	    $q = "SELECT *
