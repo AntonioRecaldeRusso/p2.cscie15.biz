@@ -38,7 +38,12 @@ box-shadow: 0 0 5px rgba(81, 203, 238, 1);
 	margin-top: 5%;
 }
 
+#last_input_title {
+	margin-top: 10%;
+}
+
 #last_input {
 	display: block;
-	margin-top: 10%;
+	margin-top: 3%;
+	
 }

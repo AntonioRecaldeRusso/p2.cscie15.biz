@@ -32,3 +32,18 @@ p, h1, form, button{border:0; margin:0; padding:0;}
  #header {
 	text-align: center;
 	}
+
+#user_logged {
+	float: right;
+	clear: right;
+	background-color: red;
+	color: white;
+	float: right;
+	clear: right;
+}
+
+#offset_balancer {
+	float: left;
+	clear: left;
+	visibility: hidden;
+}
