@@ -17,31 +17,67 @@ class users_controller extends base_controller {
         echo $this->template;
     }
 
-    public function signup() {
+    public function signup($username_exists = NULL, $email_exists = NULL, $invalid_email = NULL, $password_error = NULL, $empty_field = NULL) {
         if ($this->user)
             Router::redirect('/users/index');
+
         #Set up the View
         $this->template->content = View::instance('v_users_signup');
 
         $client_files_head = array('/css/users_signup.css');
         $this->template->client_files_head = Utils::load_client_files($client_files_head);
 
+        $this->template->content->username_exists = $username_exists;
+        $this->template->content->email_exists = $email_exists;
+        $this->template->content->invalid_email = $invalid_email;
+        $this->template->content->password_error = $password_error;
+        $this->template->content->empty_field = $empty_field;
+
         #Render the view
         echo $this->template;
     }
 
     public function p_signup() {
+        $input_check = array();
+
+        $username_exists = DB::instance(DB_NAME)->select_field("SELECT username FROM users WHERE username = '".$_POST['username']."'");
+        if ($username_exists)
+            $username_exists = true;echo 'username exists';
+
+        $email_exists = DB::instance(DB_NAME)->select_field("SELECT email FROM users WHERE email = '".$_POST['email']."'");
+        if ($email_exists)
+            $email_exists = true;
+        
+        if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
+            $invalid_email = true;      
+        else $invalid_email = false;
+
+        if($_POST['password'] != $_POST['password2'] && strlen($_POST['password']) > 6 )
+            $password_error = true;
+        else $password_error = false;
+
+        
+        $empty_field = false;
+        foreach ($_POST as $key => $value) 
+            if ( strlen($key) < 1 )
+                $empty_field = true;
+        
 
         $_POST['created']   = Time::now();
         $_POST['password']  = sha1(PASSWORD_SALT.$_POST['password']);
         $_POST['token']     = sha1(TOKEN_SALT.$_POST['email'].Utils::generate_random_string());
         unset($_POST['password2']);
 
-        DB::instance(DB_NAME)->insert_row('users', $_POST);
+        if (!$username_exists && !$email_exists && !$invalid_email)
+        {
+            DB::instance(DB_NAME)->insert_row('users', $_POST);
+            $token = $_POST['token'];
+            setcookie('token', $token, strtotime('+1 week'), '/');
+            Router::redirect('/users/index');
+        }
 
-        $token = $_POST['token'];
-        setcookie('token', $token, strtotime('+1 week'), '/');
-        Router::redirect('./index');
+        else
+            $this->signup($username_exists, $email_exists, $invalid_email, $password_error, $empty_field);
     }
 
     public function login() {
@@ -51,15 +87,22 @@ class users_controller extends base_controller {
         #Set title
         $this->template->title = "Login";
 
+        #Set header information
+        $client_files_head = array('/css/users_login.css');
+        $this->template->client_files_head = Utils::load_client_files($client_files_head);
+
         #Display the view
         echo $this->template;
 
     }
 
     public function p_login() {
+        if ($_POST['submit'] == Register)
+            Router::redirect('/users/signup');
+
         $_POST['password'] = sha1(PASSWORD_SALT.$_POST['password']);
 
-        $q = "SELECT token FROM users WHERE email='".mysql_real_escape_string($_POST['email'])."' AND password='".$_POST['password']."'";
+        $q = "SELECT token FROM users WHERE email='".$_POST['email']."' AND password='".$_POST['password']."'";
         $token = DB::instance(DB_NAME)->select_field($q);
         
         #Success
@@ -92,7 +135,7 @@ class users_controller extends base_controller {
         }
 
         #Set header information
-        $client_files_head = array('/css/style.css', '/css/users_profile.css');
+        $client_files_head = array('/css/users_profile.css');
         $this->template->client_files_head = Utils::load_client_files($client_files_head);
 
         #Set up View
