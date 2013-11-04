@@ -34,7 +34,7 @@
 		<label>Password
 		<span class="small">Re-enter your password</span>
 		</label>
-		<input type="password" name="password" id="password2" />
+		<input type="password" name="password2" id="password2" />
 
 		<button type="submit">Sign-up</button>
 		<div class="spacer"></div>

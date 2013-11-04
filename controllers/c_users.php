@@ -42,7 +42,7 @@ class users_controller extends base_controller {
 
         $username_exists = DB::instance(DB_NAME)->select_field("SELECT username FROM users WHERE username = '".$_POST['username']."'");
         if ($username_exists)
-            $username_exists = true;echo 'username exists';
+            $username_exists = true;
 
         $email_exists = DB::instance(DB_NAME)->select_field("SELECT email FROM users WHERE email = '".$_POST['email']."'");
         if ($email_exists)
@@ -52,14 +52,14 @@ class users_controller extends base_controller {
             $invalid_email = true;      
         else $invalid_email = false;
 
-        if($_POST['password'] != $_POST['password2'] && strlen($_POST['password']) > 6 )
+        if( $_POST['password'] != $_POST['password2'] || strlen($_POST['password']) < 6)
             $password_error = true;
         else $password_error = false;
 
         
         $empty_field = false;
         foreach ($_POST as $key => $value) 
-            if ( strlen($key) < 1 )
+            if ( strlen($value) < 1 )
                 $empty_field = true;
         
 
