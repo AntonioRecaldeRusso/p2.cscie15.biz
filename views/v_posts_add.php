@@ -5,6 +5,9 @@
 		<br>
 		<input type='Submit' value='Add new post'>
 		<br>
-		<p id="last_input"><?php if(isset($message)) echo $message; ?></p>
+		<div>
+			<h2 id="last_input_title"> <?php if(isset($last_input)) echo 'Post Added:'; ?> </h2>
+			<p id="last_input"><?php if(isset($last_input)) echo nl2br($last_input) ?></p>
+		</div>
 </div>
 </form>

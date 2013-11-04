@@ -1,15 +1,22 @@
+<div id="main">
+
 <?php foreach($posts as $post): ?>
 
 <article>
+	<br>
+	<div class="each_post">
+	    <div id="username"><?php echo $post['first_name']?> <?php echo $post['last_name']?> posted:</div>
 
-    <h1><?php echo $post['first_name']?> <?php echo $post['last_name']?> posted:</h1>
+	    <div class="post_boder"> <p class="post"><?php echo nl2br($post['content']) ?></p></div>
 
-    <p><?php echo $post['content']?></p>
-
-    <time datetime="<?php echo Time::display($post['created'],'Y-m-d G:i')?>">
-        <?php echo Time::display($post['created'])?>
-    </time>
+	    <time id="time" datetime="<?php echo Time::display($post['created'],'Y-m-d G:i')?>">
+	        <?php echo Time::display($post['created'])?>
+	    </time>
+	</div>
+    <br>
 
 </article>
 
 <?php endforeach; ?>
+
+</div>

@@ -2,5 +2,18 @@
 		
 
 <?php else: ?>
-	Welcome to myBlog. Please <a href="users/signup">sign up</a> or <a href="users\login">log in</a>
+	<div id="welcome"><h1>Welcome to myBlog.<h1></div>
 <?php endif; ?>
+
+<div id="container">
+	<a href="/users/login" class="button">Login ►</a>
+	<a href="/users/signup" class="button">Register ♥</a>
+</div>
+
+<div id="features">
+	<h3>+1 Features:</h3><br>
+	<p>Upload picture<br>Another feature</p>
+</div>
+
+
+
