@@ -1,0 +1,48 @@
+article {
+	margin-top: 5%;
+}
+
+#main {
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#username {
+	float: left;
+	clear: left;
+}
+
+#time {
+	float: right;
+	clear: right;
+}
+
+.each_post {
+	
+}
+
+.post {
+	margin-left: 5%;
+	padding-bottom: 3%;
+	padding-top: 3%;
+}
+
+.post_boder {
+	float: left;
+	border: 2px solid #dadada;
+    border-radius: 7px;
+	-webkit-border-radius: 15px;
+  	-moz-border-radius: 15px;
+  	border-radius: 15px;
+  	width: 55%;
+	margin-left: 2%;
+	margin-bottom: 3%;
+}
+
+.post_boder:focus { 
+    outline: none;
+    border-color: #9ecaed;
+    box-shadow: 0 0 50px #9ecaed;
+}
+
