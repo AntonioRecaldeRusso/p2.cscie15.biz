@@ -2,7 +2,7 @@ article {
 	margin-top: 5%;
 }
 
-#main {
+#wrapper {
 	width: 50%;
 	margin-left: auto;
 	margin-right: auto;
@@ -16,6 +16,14 @@ article {
 #time {
 	float: right;
 	clear: right;
+	font-size: 80%;
+}
+
+#edit_link {
+	width: 5%;
+	margin-left: 1%;
+	display: block;
+	float: left;
 }
 
 .each_post {
