@@ -66,10 +66,12 @@ class users_controller extends base_controller {
         $_POST['created']   = Time::now();
         $_POST['password']  = sha1(PASSWORD_SALT.$_POST['password']);
         $_POST['token']     = sha1(TOKEN_SALT.$_POST['email'].Utils::generate_random_string());
+        $_POST['photo_link'] = "default.gif";
         unset($_POST['password2']);
 
         if (!$username_exists && !$email_exists && !$invalid_email)
         {
+            $_POST['last_login']   = Time::now();
             DB::instance(DB_NAME)->insert_row('users', $_POST);
             $token = $_POST['token'];
             setcookie('token', $token, strtotime('+1 week'), '/');
@@ -81,6 +83,8 @@ class users_controller extends base_controller {
     }
 
     public function login() {
+        if ($this->user)
+            Router::redirect('/');
         #Set up View
         $this->template->content = View::instance('v_users_login');
 
@@ -119,6 +123,9 @@ class users_controller extends base_controller {
 
 
     public function logout() {
+        if (!$this->user)
+            Router::redirect('/users/login');
+
         $new_token = sha1(TOKEN_SALT.$this->user->email.Utils::generate_random_string());
         $data = Array('token' =>$new_token);
         DB::instance(DB_NAME)->update('users', $data, 'WHERE user_id ='.$this->user->user_id);
@@ -152,17 +159,19 @@ class users_controller extends base_controller {
             $this->template->content->user_id = $user_id = $this->user->user_id;
             $this->template->content->first_name = $first_name = $this->user->first_name;
             $this->template->content->last_name = $last_name = $this->user->last_name;
+            $this->template->content->photo_link = $photo_link = $this->user->photo_link;
         }
 
         else
         {
             #Getting data from user whose username equals function's argument
-            $result = DB::instance(DB_NAME)->select_row("SELECT first_name, last_name, user_id FROM users WHERE username = '$user_name'");
+            $result = DB::instance(DB_NAME)->select_row("SELECT first_name, last_name, user_id, photo_link FROM users WHERE username = '$user_name'");
             
             #Passing first and last name to view
             $this->template->content->first_name = $first_name = $result['first_name'];
             $this->template->content->last_name = $last_name  = $result['last_name'];
             $this->template->content->user_id = $user_id = $result['user_id'];
+            $this->template->content->photo_link = $photo_link = $result['photo_link'];
             
             if ($result == NULL) {
                 $this->template->content->no_profile = $no_profile = TRUE;
@@ -201,6 +210,37 @@ class users_controller extends base_controller {
         $this->template->content->user_name = $user_name;
 
         echo $this->template;
+    }
+
+    public function p_upload_photo()
+    {
+        if ($_FILES["file"]["error"] == 0)
+        {
+            
+            $image = Upload::upload($_FILES, "/uploads/avatars/", array("jpg", "JPG", "jpeg", "JPEG", "gif", "GIF", "png", "PNG"), $this->user->username);
+
+            if($image == 'Invalid file type.') {
+                Router::redirect("/users/profile/"); 
+                        }
+            else {
+                                
+                $data = Array("photo_link" => $image);
+                DB::instance(DB_NAME)->update("users", $data, "WHERE user_id = ".$this->user->user_id);
+
+                
+                $imgObj = new Image($_SERVER["DOCUMENT_ROOT"].'/uploads/avatars/'.$image);
+                $imgObj->resize(250,250,"crop");
+                $imgObj->save_image($_SERVER["DOCUMENT_ROOT"].'/uploads/avatars/'.$image);
+            }
+        }
+        else
+        {
+                
+                Router::redirect("/users/profile");  
+        }
+
+                
+                router::redirect('/users/profile'); 
     }
 
 } # end of the class
