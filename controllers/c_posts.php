@@ -26,6 +26,9 @@ class posts_controller extends base_controller
 		if (!$this->user)
 			Router::redirect('/users/login');
 
+		if ( strlen($_POST['content']) < 1 )
+			Router::redirect('/posts/add');
+
         # Associate this post with this user
         $_POST['user_id']  = $this->user->user_id;
 
@@ -38,8 +41,7 @@ class posts_controller extends base_controller
         DB::instance(DB_NAME)->insert('posts', $_POST);
 
         #Redirect to origin
-        Router::redirect('/posts/add/last_post');
-        
+       Router::redirect('/posts/add/last_post');        
     }
 
 	public function index() {
@@ -187,6 +189,38 @@ public function myPosts()
 
 	    # Send them back
 	    Router::redirect("/posts/users");
+	}
+
+	public function edit($post_id = NULL)
+	{
+		# Setup view
+        $this->template->content = View::instance('v_posts_edit');
+        $this->template->title   = $this->user->first_name."Edit Post";
+
+         #Setting header info
+	    $client_files_head = array('/css/posts_users.css');
+	    $this->template->client_files_head = Utils::load_client_files($client_files_head);
+	
+
+        $post = DB::instance(DB_NAME)->select_field("SELECT posts.content FROM posts WHERE post_id = '".$post_id."'");
+
+        
+        $this->template->content->post = $post;
+
+        
+        $this->template->content->post_id = $post_id;
+
+        
+        echo $this->template;
+	}
+
+	public function p_edit($post_id = NULL)
+	{
+		$_POST['user_id'] = $this->user->user_id;
+		$_POST['modified'] = Time::now();
+
+		DB::instance(DB_NAME)->update_row('posts', $_POST, "WHERE post_id =".$post_id);
+		Router::redirect('/posts/myposts');
 	}
 }
 ?>
