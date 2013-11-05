@@ -21,5 +21,18 @@
 <tr><td>Posts</td><td><?php echo $posted; ?></td></tr>
 </table>
 
+<div>  
+	<?php echo "<img id='image'src = '".AVATAR_PATH.$photo_link."' alt = 'User Photo'>"; ?>
+</div>
+
+<div <?php if (isset($user_name)) echo "id='upload_form'"; ?>> 
+	<form method='POST' enctype="multipart/form-data" action='/users/p_upload_photo/'>
+                <div class = "">
+                    Upload a Profile Photo
+                    <input type='file' name='file'>
+                    <input type='submit'>
+                </div>
+    </form>
+</div>
 </div>
 
