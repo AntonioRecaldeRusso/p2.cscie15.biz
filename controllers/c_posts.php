@@ -198,7 +198,7 @@ public function myPosts()
         $this->template->title   = $this->user->first_name."Edit Post";
 
          #Setting header info
-	    $client_files_head = array('/css/posts_users.css');
+	    $client_files_head = array('/css/posts_add.css');
 	    $this->template->client_files_head = Utils::load_client_files($client_files_head);
 	
 
