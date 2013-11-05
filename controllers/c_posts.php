@@ -8,6 +8,9 @@ class posts_controller extends base_controller
 
 	public function add($last_post = NULL)
 	{
+		if (!$this->user)
+			Router::redirect('/users/login');
+
 		$this->template->content = View::instance("v_posts_add");
 		$client_files_head = array('/css/style.css', '/css/posts_add.css');
         $this->template->client_files_head = Utils::load_client_files($client_files_head);
@@ -20,6 +23,8 @@ class posts_controller extends base_controller
 	}
 
 	public function p_add() {
+		if (!$this->user)
+			Router::redirect('/users/login');
 
         # Associate this post with this user
         $_POST['user_id']  = $this->user->user_id;
@@ -38,6 +43,9 @@ class posts_controller extends base_controller
     }
 
 	public function index() {
+	
+	if (!$this->user)
+		Router::redirect('/users/login');
 
     # Set up the View
     $this->template->content = View::instance('v_posts_index');
@@ -76,6 +84,9 @@ class posts_controller extends base_controller
 
 public function myPosts()
 {
+	if (!$this->user)
+		Router::redirect('/users/login');
+
 	# Set up the View
     $this->template->content = View::instance('v_posts_myposts');
     $this->template->title   = "My Posts";
@@ -106,6 +117,8 @@ public function myPosts()
 
 	public function users() 
 	{
+		if (!$this->user)
+			Router::redirect('/users/login');
 
 	    # Set up the View
 	    $this->template->content = View::instance("v_posts_users");
@@ -145,6 +158,9 @@ public function myPosts()
 
 	public function follow($user_id_followed) 
 	{
+		if (!$this->user)
+			Router::redirect('/users/login');
+
 	    # Prepare the data array to be inserted
 	    $data = Array(
 	        "created" => Time::now(),
@@ -162,6 +178,9 @@ public function myPosts()
 
 	public function unfollow($user_id_followed) 
 	{
+		if (!$this->user)
+			Router::redirect('/users/login');
+
 	    # Delete this connection
 	    $where_condition = 'WHERE user_id = '.$this->user->user_id.' AND user_id_followed = '.$user_id_followed;
 	    DB::instance(DB_NAME)->delete('users_users', $where_condition);
