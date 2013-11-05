@@ -1,4 +1,4 @@
-<div id="main">
+<div id="wrapper">
 
 <?php foreach($posts as $post): ?>
 
