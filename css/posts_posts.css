@@ -2,6 +2,10 @@ article {
 	margin-top: 5%;
 }
 
+a, a:visited {
+	color: blue;
+}
+
 #wrapper {
 	width: 50%;
 	margin-left: auto;
@@ -9,6 +13,7 @@ article {
 }
 
 #username {
+	width: 18%;
 	float: left;
 	clear: left;
 }
