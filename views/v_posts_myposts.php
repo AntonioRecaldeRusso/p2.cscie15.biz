@@ -9,7 +9,7 @@
 
 	    <div class="post_boder"> <p class="post"><?php echo nl2br($post['content']) ?></p></div>
 
-	    <div id="edit_link"><h5><a href="/posts/edit_post/".<?php echo $post['post_id']?>>edit</a></h5></div>
+	    <div id="edit_link"><h5><a <?php echo "href='/posts/edit/".$post['post_id']."'"; ?> >edit</a></h5></div>
 
 	    <time id="time" datetime="<?php echo Time::display($post['created'],'Y-m-d G:i')?>">
 	        <?php echo Time::display($post['created'])?>
