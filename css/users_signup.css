@@ -10,6 +10,10 @@ padding:14px;
 
 #login_link {
 	float: right;
+	color: white;
+	background-color: gray;
+	text-decoration: none;
+	padding: 0.5%;
 }
 
 #stylized{
