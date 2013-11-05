@@ -6,13 +6,31 @@
 	margin-top: 3%;
 }
 
-.first_name {
-	
+#table_title {
+	text-align: center;
 }
 
-.link {
-	
+.name a {
+	text-decoration: none;
+	color: black;
+	display: block;
+	font-size: 1.5em;
 }
+.name:hover {
+	background-color: pink;
+}
+
+.link a{
+	text-decoration: none;
+	display: block;
+	color: black;
+}
+
+.link:hover {
+	background-color: pink;
+}
+
+
 
 
 .table {
