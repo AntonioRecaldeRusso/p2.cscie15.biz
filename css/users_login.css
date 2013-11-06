@@ -4,7 +4,7 @@
 SELECTION STYLING
 *******************/
 
-::selection {
+::-selection {
 	color: #fff;
 	background: #f676b2; /* Safari */
 }
