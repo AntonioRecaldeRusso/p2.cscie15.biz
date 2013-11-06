@@ -1,5 +1,3 @@
-</div>
-
 <div id="stylized" class="myform">
 
 	<!-- which ever variable gets passed as TRUE into the template, enables the corresponding "if" condition to

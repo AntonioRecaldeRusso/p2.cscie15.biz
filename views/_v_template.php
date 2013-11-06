@@ -14,7 +14,7 @@
 <body>
 	<div id="top">
 		<!-- The first php block added for alignment purposes. Set to invisible -->	
-		<h1 id="header"><div id="offset_balancer"><?php if (isset($user->username)) echo $user->username; ?></div>myBlog<a id="user_logged"><?php if (isset($user->username)) echo $user->username; ?></a></h1> <br>
+		<h1 id="header"><span id="offset_balancer"><?php if (isset($user->username)) echo $user->username; ?></span>myBlog<a id="user_logged"><?php if (isset($user->username)) echo $user->username; ?></a></h1> <br>
 			<div id="navbar"> 
 		  	<ul> 
 			<li><a href="/users/profile">Profile</a></li>

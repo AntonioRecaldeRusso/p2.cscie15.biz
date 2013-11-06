@@ -85,10 +85,6 @@
 }
 .table tr:nth-child(odd){ background-color:#E6E6E6; }
 .table tr:nth-child(even)    { background-color:#ffffff; }
-}.table tr:last-child td{
-	border-width:0px 1px 0px 0px;
-}.table tr td:last-child{
-	border-width:0px 0px 1px 0px;
-}.table tr:last-child td:last-child{
-	border-width:0px 0px 0px 0px;
-}
+.table tr:last-child td{ border-width:0px 1px 0px 0px; }
+.table tr td:last-child{ border-width:0px 0px 1px 0px; }
+.table tr:last-child td:last-child{	border-width:0px 0px 0px 0px; }
