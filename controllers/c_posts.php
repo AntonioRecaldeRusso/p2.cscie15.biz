@@ -20,6 +20,9 @@ class posts_controller extends base_controller
 		#Set up the View
 		$this->template->content = View::instance("v_posts_add");
 
+		#Set title
+		$this->template->title = 'Add Posts';
+
 		#Add header info
 		$client_files_head = array('/css/style.css', '/css/posts_add.css');
         $this->template->client_files_head = Utils::load_client_files($client_files_head);
@@ -244,6 +247,9 @@ public function myPosts()
         #Setting header info
 	    $client_files_head = array('/css/posts_add.css');
 	    $this->template->client_files_head = Utils::load_client_files($client_files_head);
+
+	    #Set title
+		$this->template->title = 'Edit Post';
 	
 	    #Get the post's id from the database
         $post = DB::instance(DB_NAME)->select_field("SELECT posts.content FROM posts WHERE post_id = '".$post_id."'");

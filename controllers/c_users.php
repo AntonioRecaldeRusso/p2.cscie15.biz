@@ -16,6 +16,9 @@ class users_controller extends base_controller {
         $client_files_head = array('/css/users_profile.css');
         $this->template->client_files_head = Utils::load_client_files($client_files_head);
 
+        #Set title
+        $this->template->title = 'myBlog';
+
         #Render the view
         echo $this->template;
     }
@@ -42,6 +45,9 @@ class users_controller extends base_controller {
         #Set up header files
         $client_files_head = array('/css/users_signup.css');
         $this->template->client_files_head = Utils::load_client_files($client_files_head);
+
+        #Set title
+        $this->template->title = 'Signup';
 
         #Pass info to the view.
         $this->template->content->username_exists = $username_exists;
