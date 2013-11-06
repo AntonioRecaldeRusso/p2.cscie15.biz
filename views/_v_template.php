@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title><?php if(isset($title)) echo $title; ?></title>
+	<title><?php if(isset($title)) echo $title; else echo 'myBlog'; ?></title>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />	
 	
