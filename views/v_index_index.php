@@ -2,7 +2,7 @@
 		
 
 <?php else: ?>
-	<div id="welcome"><h1>Welcome to myBlog.<h1></div>
+	<div id="welcome"><h1>Welcome to myBlog.</h1></div>
 <?php endif; ?>
 
 <!-- buttons -->
