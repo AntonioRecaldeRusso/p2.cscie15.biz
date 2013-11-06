@@ -1,4 +1,3 @@
-
 #wrapper {
 	width: 35%;
 	margin-left: auto;
@@ -16,8 +15,8 @@
 	display: block;
 	font-size: 1.5em;
 }
-.name:hover {
-	background-color: pink;
+.name:hover, .link:hover {
+	background-color: lightgray;
 }
 
 .link a{
@@ -26,12 +25,17 @@
 	color: black;
 }
 
-.link:hover {
-	background-color: pink;
+.follow {
+	width: 45%;
+	background-color: lightyellow;
+	border: solid 1px lightpink;
 }
 
-
-
+.unfollow {
+	width: 45%;
+	background-color: lightyellow;
+	border: 1px solid lightgreen;
+}
 
 .table {
 	margin:0px;padding:0px;
@@ -79,7 +83,7 @@
 }.table tr:hover td{
 	
 }
-.table tr:nth-child(odd){ background-color:#d9e8f7; }
+.table tr:nth-child(odd){ background-color:#E6E6E6; }
 .table tr:nth-child(even)    { background-color:#ffffff; }
 }.table tr:last-child td{
 	border-width:0px 1px 0px 0px;

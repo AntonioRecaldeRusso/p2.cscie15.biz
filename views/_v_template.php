@@ -18,7 +18,7 @@
 			<div id="navbar"> 
 		  	<ul> 
 			<li><a href="/users/profile">Profile</a></li>
-			<li><a href="/posts/add">Post</a></li>
+			<li><a href="/posts/add">Add Post</a></li>
 			<li><a href="/posts/myposts">My Posts</a></li>  
 			<li><a href="/posts/index">View Posts</a></li> 
 			<li><a href="/posts/users">View Users</a></li> 

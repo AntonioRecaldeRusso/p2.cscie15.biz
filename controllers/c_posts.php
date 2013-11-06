@@ -6,26 +6,44 @@ class posts_controller extends base_controller
         parent::__construct();
     } 
 
+    /**
+     *	This function renders the "Add Posts" page, and displays the last post inputted.
+     *
+     *	@param $last_post	The last post inputted into the database
+     */
 	public function add($last_post = NULL)
 	{
+		#Ensure user is logged in to continue
 		if (!$this->user)
 			Router::redirect('/users/login');
 
+		#Set up the View
 		$this->template->content = View::instance("v_posts_add");
+
+		#Add header info
 		$client_files_head = array('/css/style.css', '/css/posts_add.css');
         $this->template->client_files_head = Utils::load_client_files($client_files_head);
 		
+		#If there was a $last_post parameter, pass info about the last post to the view.. 
 		if ($last_post == 'last_post')
 		{
+
 			$this->template->content->last_input = $last_input = DB::instance(DB_NAME)->select_field($q = "SELECT content FROM posts WHERE user_id = '".$this->user->user_id."' ORDER BY post_id DESC LIMIT 1");
 		}
+
+		#Render
 		echo $this->template;
 	}
 
+	/**
+	 *	Processes from info and adds post into database
+	 */
 	public function p_add() {
+		#Ensure user is logged in
 		if (!$this->user)
 			Router::redirect('/users/login');
 
+		#If the content inside the text area form is empty, do not do anything.. just return to the add() page.
 		if ( strlen($_POST['content']) < 1 )
 			Router::redirect('/posts/add');
 
@@ -44,8 +62,13 @@ class posts_controller extends base_controller
        Router::redirect('/posts/add/last_post');        
     }
 
+
+    /**
+     *	Renders /posts/index which displays a list of all users.
+     */
 	public function index() {
 	
+	#Ensure login
 	if (!$this->user)
 		Router::redirect('/users/login');
 
@@ -84,8 +107,12 @@ class posts_controller extends base_controller
 
 }
 
+/**
+ *	Renders page displaying all posts made by logged in user
+ */
 public function myPosts()
 {
+	#Ensure login to access this page
 	if (!$this->user)
 		Router::redirect('/users/login');
 
@@ -117,8 +144,12 @@ public function myPosts()
     echo $this->template;
 }
 
+	/**
+	 *	Renders page displaying
+	 */
 	public function users() 
 	{
+		#Ensure login
 		if (!$this->user)
 			Router::redirect('/users/login');
 
@@ -155,11 +186,18 @@ public function myPosts()
 	    $this->template->content->users       = $users;
 	    $this->template->content->connections = $connections;
 
+	    #Render
 	    echo $this->template;
 	}
 
+	/**
+	 *	Allows the user to track other users's posts
+	 *
+	 *	@param $users_id_followed  	The user id of the user to be followed
+	 */
 	public function follow($user_id_followed) 
 	{
+		#Ensure user is logged in. Not really necessary.. But, playing on the safe side.
 		if (!$this->user)
 			Router::redirect('/users/login');
 
@@ -178,8 +216,14 @@ public function myPosts()
 
 	}
 
+	/**
+	 * 	Unfollows user
+	 *
+	 *	@param User to be unfollowed
+	 */
 	public function unfollow($user_id_followed) 
 	{
+		#Ensure only logged in users can perform this action. This is not really necessary as they cannot even access the page.. Double-safety.
 		if (!$this->user)
 			Router::redirect('/users/login');
 
@@ -197,29 +241,38 @@ public function myPosts()
         $this->template->content = View::instance('v_posts_edit');
         $this->template->title   = $this->user->first_name."Edit Post";
 
-         #Setting header info
+        #Setting header info
 	    $client_files_head = array('/css/posts_add.css');
 	    $this->template->client_files_head = Utils::load_client_files($client_files_head);
 	
-
+	    #Get the post's id from the database
         $post = DB::instance(DB_NAME)->select_field("SELECT posts.content FROM posts WHERE post_id = '".$post_id."'");
 
-        
+        #Pass the info to the view page
         $this->template->content->post = $post;
-
-        
         $this->template->content->post_id = $post_id;
 
-        
+        #Render
         echo $this->template;
 	}
 
+	/**
+	 * 	Processes editing already existing posts
+	 *
+	 *	@param $post_id 	The id of the post to be edited
+	 */
 	public function p_edit($post_id = NULL)
 	{
+		#Store the id passed by the <form> into the object's equivalent field
 		$_POST['user_id'] = $this->user->user_id;
+
+		#Set modified timestamp value
 		$_POST['modified'] = Time::now();
 
+		#Update the database with the new data
 		DB::instance(DB_NAME)->update_row('posts', $_POST, "WHERE post_id =".$post_id);
+
+		#After it's all done, return to displaying all the user's posts
 		Router::redirect('/posts/myposts');
 	}
 }

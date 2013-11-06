@@ -1,6 +1,9 @@
 </div>
 
 <div id="stylized" class="myform">
+
+	<!-- which ever variable gets passed as TRUE into the template, enables the corresponding "if" condition to
+		allow execution... thus, echoing error messages in accord to the situation. -->
 	<div id="error"><h3><?php if ($username_exists) echo 'Username already Exists. '; if ($email_exists) echo 'Email already exists. '; if ($invalid_email) echo 'Invalid email address. '; if ($password_error) echo 'Password error. '; if ($empty_field) echo 'An empty field was submitted.' ?>	</h3></div>
 	<form id="form" name="form" action='/users/p_signup' method="POST">
 		<h1>Sign-up</h1>

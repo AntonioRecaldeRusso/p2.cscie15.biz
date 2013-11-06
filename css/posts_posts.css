@@ -2,6 +2,7 @@ article {
 	margin-top: 5%;
 }
 
+/* all links blue */
 a, a:visited {
 	color: blue;
 }
@@ -25,14 +26,14 @@ a, a:visited {
 }
 
 #edit_link {
-	width: 5%;
+	width: 3%;
 	margin-left: 1%;
 	display: block;
 	float: left;
 }
 
 .each_post {
-	
+	/* Empty, but here just not to forget that this could be used */
 }
 
 .post {

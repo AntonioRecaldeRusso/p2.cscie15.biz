@@ -5,8 +5,10 @@
 <article>
 	<br>
 	<div class="each_post">
+		<!-- Output: First_name Last_name -->
 	    <div id="username"><?php echo $post['first_name']?> <?php echo $post['last_name']?> posted:</div>
 
+	    <!-- Ensure line breaks are respected -->
 	    <div class="post_boder"> <p class="post"><?php echo nl2br($post['content']) ?></p></div>
 
 	    <div id="edit_link"><h5><a <?php echo "href='/posts/edit/".$post['post_id']."'"; ?> >edit</a></h5></div>
